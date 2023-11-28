@@ -1,0 +1,69 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/reading.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+            <main>
+                
+                <% if (books.length > 0) { %>
+                    <a href="/reading/clear" class="btn">Clear Reading List</a>
+                    <ul class="reading__item-list">
+                        <% books.forEach(b=> { %>
+                            <li class="reading__item">
+                                <ul>
+                                    <li class="inner-reading__item">
+                                        <h1>
+                                            <%= b.bookId.title %> by <%= b.bookId.author %>
+                                        </h1>
+                                    </li>
+                                    <li class="inner-reading__item">
+                                        <div class="image">
+                                            <img src="<%= b.bookId.imageUrl %>" alt="<%= b.bookId.title %>">
+                                        </div>
+                                    </li>
+                                    <li class="inner-reading__item">
+                                        <h2>Status: <%= opt[b.status] %>
+                                        </h2>
+                                    </li>
+                                    <li class="inner-reading__item">
+                                        <!-- <li class="inner-inner-reading__item"> -->
+                                        <% opt.forEach(option=> { %>
+                                            <form action="/reading/update-status" method="POST">
+                                                <input type="hidden" value="<%= b.bookId._id %>" name="bookId">
+                                                <input type="hidden" value="<%= opt.indexOf(option) %>" name="status">
+                                                <% if (option !==opt[b.status] ) { %>
+                                                    <button class="btn" type="submit">
+                                                        <%= option %>
+                                                    </button>
+                                                    <% } else { %>
+                                                        <button class="btn" disabled>
+                                                            <%= option %>
+                                                        </button>
+                                                        <% } %>
+                                            </form>
+                                            <% }) %>
+                                    </li>
+                                    <li class="inner-reading__item">
+                                        <form action="/books/<%= b.bookId._id %>" method="GET">
+                                            <input type="hidden" value="<%= b.bookId._id %>" name="bookId">
+                                            <button class="btn primary" type="submit">Details</button>
+                                        </form>
+                                        <a href="/admin/edit-book/<%= b.bookId._id %>?edit=true" class="btn">Edit</a>
+                                        <form action="/reading/delete-item" method="POST">
+                                            <input type="hidden" value="<%= b.bookId._id %>" name="bookId">
+                                            <button class="btn danger" type="submit">Remove</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <% }) %>
+                    </ul>
+                    <hr>
+
+                    <% } else { %>
+                        <h1>No Books in Reading!</h1>
+                        <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>

@@ -1,0 +1,46 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/reading.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <h3>Favorite Genre</h3>
+            <p id="favoriteGenre"></p>
+            <hr>
+            <div id="chartArea">
+                <canvas id="myChart"></canvas>
+            </div>
+
+        </main>
+            <script src="/js/main.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const ctx = document.getElementById('myChart');
+                fetch('http://<%= host %>/reading/favorite-data').then(res => res.json()).then(res => {
+                    document.getElementById('favoriteGenre').innerHTML = res.favorites;
+                    const labels = res.labels;
+                    const data = res.data;
+                    const myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '# of Books',
+                                data: data,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            // scales: {
+                            //     y: {
+                            //         beginAtZero: true
+                            //     }
+                            // }
+                        }
+                    });
+                });
+            </script>
+    </body>
+
+    </html>
