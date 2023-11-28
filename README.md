@@ -63,14 +63,17 @@ npm test
 | `reading`         | Handles getting reading list and favorite genre      |
 | `error`           | Handles all error events                             |
 
-## MODELS
+## MODELS
+
+
 |       NAME        |           DESCRITION                                             |
 |-------------------|------------------------------------------------------------------|
 | `book`            | Handles book data no extra features just wrapped with mongoose   |
 | `user`            | Handles all user data and reading lists                          |
 
 
-## ROUTES 
+## ROUTES 
+
 ### admin
 |          Paths             |  METHOD   |
 |----------------------------|-----------|
